@@ -30,6 +30,7 @@ class Route
     private $methods = array();
     private $schemes = array();
     private $condition;
+    private $classMethods = array();
 
     /**
      * @param array $data An array of key/value parameters
@@ -38,14 +39,18 @@ class Route
      */
     public function __construct(array $data)
     {
-        if (isset($data['value'])) {
+        $this->classMethods = get_class_methods(__CLASS__);
+
+        if (isset($data['value']))
+        {
             $data['path'] = $data['value'];
             unset($data['value']);
         }
 
-        foreach ($data as $key => $value) {
-            $method = 'set'.str_replace('_', '', $key);
-            if (!method_exists($this, $method)) {
+        foreach ($data as $key => $value)
+        {
+            $method = 'set'.ucfirst((str_replace('_', '', $key)));
+            if(!in_array($method, get_class_methods(__CLASS__))) {
                 throw new \BadMethodCallException(sprintf('Unknown property "%s" on annotation "%s".', $key, get_class($this)));
             }
             $this->$method($value);
