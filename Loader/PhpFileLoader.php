@@ -33,7 +33,7 @@ class PhpFileLoader extends FileLoader
      *
      * @return RouteCollection A RouteCollection instance
      *
-     * @throws NoConfigurationException When the file does not return RouteCollection instance 
+     * @throws \InvalidArgumentException When the file does not return RouteCollection instance
      *                                  and failed to create
      */
     public function load($file, $type = null)
@@ -57,7 +57,7 @@ class PhpFileLoader extends FileLoader
         }
 
         if (!$collection instanceof RouteCollection)
-            throw new NoConfigurationException('The ' . $path . ' file does not return an object Symfony\Component\Routing\RouteCollection');
+            throw new \InvalidArgumentException('The ' . $path . ' file does not return an object Symfony\Component\Routing\RouteCollection');
 
         $collection->addResource(new FileResource($path));
 
