@@ -14,7 +14,7 @@ namespace Symfony\Component\Routing\Tests\Loader;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Loader\AnnotationClassLoader;
 
-abstract class AbstractAnnotationLoaderTest extends TestCase
+abstract class AbstractAnnotationLoaderTestCase extends TestCase
 {
     public function getReader()
     {

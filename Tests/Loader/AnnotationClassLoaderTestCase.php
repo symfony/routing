@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Loader\AnnotationClassLoader;
 use Symfony\Component\Routing\Tests\Fixtures\AnnotationFixtures\AbstractClassController;
 
-abstract class AnnotationClassLoaderTest extends TestCase
+abstract class AnnotationClassLoaderTestCase extends TestCase
 {
     /**
      * @var AnnotationClassLoader
