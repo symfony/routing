@@ -37,17 +37,17 @@ class CompiledUrlMatcherDumper extends MatcherDumper
     public function dump(array $options = []): string
     {
         return <<<EOF
-<?php
+            <?php
 
-/**
- * This file has been auto-generated
- * by the Symfony Routing Component.
- */
+            /**
+             * This file has been auto-generated
+             * by the Symfony Routing Component.
+             */
 
-return [
-{$this->generateCompiledRoutes()}];
+            return [
+            {$this->generateCompiledRoutes()}];
 
-EOF;
+            EOF;
     }
 
     /**
@@ -115,12 +115,12 @@ EOF;
             }
 
             $checkConditionCode = <<<EOF
-    static function (\$condition, \$context, \$request, \$params) { // \$checkCondition
-        switch (\$condition) {
-{$this->indent(implode("\n", $conditions), 3)}
-        }
-    }
-EOF;
+                    static function (\$condition, \$context, \$request, \$params) { // \$checkCondition
+                        switch (\$condition) {
+                {$this->indent(implode("\n", $conditions), 3)}
+                        }
+                    }
+                EOF;
             $compiledRoutes[4] = $forDump ? $checkConditionCode.",\n" : eval('return '.$checkConditionCode.';');
         } else {
             $compiledRoutes[4] = $forDump ? "    null, // \$checkCondition\n" : null;
