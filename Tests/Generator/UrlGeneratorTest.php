@@ -366,6 +366,14 @@ class UrlGeneratorTest extends TestCase
         $this->getGenerator($routes)->generate('test', ['foo' => '0'], UrlGeneratorInterface::ABSOLUTE_URL);
     }
 
+    public function testGenerateForRouteWithAlternationRequirementRejectsSubstringMatch()
+    {
+        $routes = $this->getRoutes('test', new Route('/{_locale}/blog', [], ['_locale' => 'en|fr|vi|de']));
+
+        $this->expectException(InvalidParameterException::class);
+        $this->getGenerator($routes)->generate('test', ['_locale' => '/evil.com']);
+    }
+
     public function testGenerateForRouteWithInvalidOptionalParameterNonStrict()
     {
         $routes = $this->getRoutes('test', new Route('/testing/{foo}', ['foo' => '1'], ['foo' => 'd+']));
