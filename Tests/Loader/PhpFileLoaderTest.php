@@ -400,6 +400,25 @@ class PhpFileLoaderTest extends TestCase
         $this->assertSame('/x', $routes->get('x')->getPath());
     }
 
+    public function testLoadsArrayRoutesWithHostControllerLocaleConditionRequirementsAndLocalizedPathsAndAlias()
+    {
+        $loader = new PhpFileLoader(new FileLocator([__DIR__.'/../Fixtures']));
+        $routes = $loader->load('array_routes_full.php');
+
+        $a = $routes->get('a');
+        $this->assertSame('/a', $a->getPath());
+        $this->assertSame('example.com', $a->getHost());
+        $this->assertSame('AppBundle:Blog:show', $a->getDefault('_controller'));
+        $this->assertSame('en', $a->getDefault('_locale'));
+        $this->assertSame("request.headers.get('User-Agent') matches '/firefox/i'", $a->getCondition());
+        $this->assertSame('[a-z]+', $a->getRequirement('slug'));
+
+        $this->assertSame('/b-en', $routes->get('b.en')->getPath());
+        $this->assertSame('/b-fr', $routes->get('b.fr')->getPath());
+
+        $this->assertSame('a', $routes->getAlias('c_alias')->getId());
+    }
+
     public function testYamlImportsAreResolvedWhenProcessingPhpReturnedArrays()
     {
         $locator = new FileLocator([__DIR__.'/../Fixtures']);
