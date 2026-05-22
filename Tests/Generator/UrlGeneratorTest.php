@@ -505,6 +505,18 @@ class UrlGeneratorTest extends TestCase
         $this->assertSame('/app.php/a./.a/a../..a/...', $this->getGenerator($routes)->generate('test'));
     }
 
+    public function testEncodingOfChainedRelativePathSegments()
+    {
+        $routes = $this->getRoutes('test', new Route('/foo/{path}/bar', [], ['path' => '.+']));
+        $this->assertSame('/app.php/foo/%2E%2E/%2E%2E/%2E%2E/bar', $this->getGenerator($routes)->generate('test', ['path' => '../../..']));
+        $this->assertSame('/app.php/foo/%2E/%2E/%2E/bar', $this->getGenerator($routes)->generate('test', ['path' => '././.']));
+        $this->assertSame('/app.php/foo/%2E%2E/%2E/%2E/%2E%2E/bar', $this->getGenerator($routes)->generate('test', ['path' => '../././..']));
+
+        $routes = $this->getRoutes('test', new Route('/foo/{path}', [], ['path' => '.+']));
+        $this->assertSame('/app.php/foo/%2E%2E/%2E%2E/%2E%2E', $this->getGenerator($routes)->generate('test', ['path' => '../../..']));
+        $this->assertSame('/app.php/foo/%2E/%2E/%2E', $this->getGenerator($routes)->generate('test', ['path' => '././.']));
+    }
+
     public function testEncodingOfSlashInPath()
     {
         $routes = $this->getRoutes('test', new Route('/dir/{path}/dir2', [], ['path' => '.+']));
