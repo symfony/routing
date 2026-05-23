@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Routing\Tests;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\CompiledRoute;
 
@@ -37,9 +38,7 @@ class CompiledRouteTest extends TestCase
         $this->assertEquals(['variables'], $compiled->getVariables(), '__construct() takes an array of variables as its ninth argument');
     }
 
-    /**
-     * @dataProvider provideTrampolineProperties
-     */
+    #[DataProvider('provideTrampolineProperties')]
     public function testUnserializeRejectsObjectInTypedScalarProperty(string $property)
     {
         $data = [
